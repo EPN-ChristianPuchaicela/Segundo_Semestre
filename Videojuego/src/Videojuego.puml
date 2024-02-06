@@ -1,0 +1,115 @@
+@startuml
+package main{
+class BadIceCream {
+- jugadores: List<Jugador>
+- enemigos: List<Enemigo>
+- niveles: List<Nivel>
+- nivelActual: Nivel
++ iniciarJuego(): void
++ avanzarNivel(): void
++ agregarJugador(jugador: Jugador): void
++ agregarEnemigo(enemigo: Enemigo): void
++ agregarNivel(nivel: Nivel): void
+}
+
+class Nivel {
+- numero: int
+- bloques: List<Bloque>
+- frutas: List<Fruta>
+
+
+}
+
+enum Direccion {
+- ARRIBA
+- ABAJO
+- IZQUIERDA
+- DERECHA
+}
+
+
+
+class Bloque {
+- tipo: TipoBloque
++ destruir(): void
+}
+
+
+ class Mapa{
+ -nivel: Nivel
+ -tipoBloque: TipoBloque
++generarNivel(nivel: Nivel): void
++agregarBloque (bloque: Bloque): void
++ agregarFrutas(fruta: Fruta): void
+}
+
+
+}
+
+
+package GameObjects {
+
+abstract class Personaje{
++ vida: int
+-velocidad: double
+
++ {abstract} morir(): void
++ {abstract} destruirBloque(bloque: Bloque): void
++ {abstract} mover(direccion: Direccion): void
+}
+class Jugador  {
+- vidas: int
+- puntaje: int
+- color: Color
++ actualizarPuntaje(puntos: int): void
++ perderVida(): void
++ recogerFrutas(fruta: Frutas): void
+}
+
+class Enemigo {
+
+- tipo: TipoEnemigo
++ atacar(): void
+}
+
+abstract class Fruta {
++numeroFrutas: int
+
+}
+class Manzana {
+}
+class Sandia {
+}
+enum Color {
+-ROJO
+-VERDE
+-MORADO
+}
+class Score {
+-puntuación: int
++actualizarPuntaje(): int
+}
+
+}
+
+package graphics {
+class Loader {
+}
+class Assets {
+}
+
+}
+Jugador --|> Personaje
+Enemigo--|> Personaje
+BadIceCream  -->Personaje: 1...*
+BadIceCream --> Mapa: 1...13
+Mapa --> Bloque: 0...*
+Personaje --> Direccion
+
+Sandia --|> Fruta
+Manzana --|> Fruta
+Jugador --> Color
+Jugador --> Score
+Mapa --> Nivel: 1...10*
+Nivel --> Fruta: 1...*
+@enduml
